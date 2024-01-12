@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Project;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -13,7 +16,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all();
+
+        return view('admin.projects.index', compact('project'));
     }
 
     /**
@@ -21,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -29,7 +34,15 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $formData = $request->validated();
+        $img_path = Storage::put('uploads/projects', $request['image']);
+        $formData['image'] = $img_path;
+        $formData['slug'] = Str::of($formData['title'])->slug('-');
+        $newProject = Project::create($formData);
+        $newProject->slug = Str::of("$newProject->id ".$formData['title'])->slug('-');
+        $newProject->save();
+
+        return redirect()->route('admin.projects.index')->with('createSuccess', 'Project successfully added!');
     }
 
     /**
@@ -37,7 +50,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -45,7 +58,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -53,7 +66,15 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $formData = $request->validated();
+        // CREATE SLUG
+        Storage::delete($project->image);
+        $img_path = Storage::put('uploads/projects', $request['image']);
+        $formData['image'] = $img_path;
+        $project->slug = Str::of("$project->id ".$formData['title'])->slug('-');
+        $project->update($formData);
+
+        return redirect()->route('admin.projects.show', compact('project'))->with('editSuccess', 'Project successfully edited!');
     }
 
     /**
@@ -61,6 +82,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return to_route('admin.projects.index')->with('message', "$project->title eliminato con successo");
     }
 }
