@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nome;
-use App\Http\Requests\StoreNomeRequest;
-use App\Http\Requests\UpdateNomeRequest;
+use App\Models\Project;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 
-class NomeController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class NomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNomeRequest $request)
+    public function store(StoreProjectRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class NomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Nome $nome)
+    public function show(Project $project)
     {
         //
     }
@@ -43,7 +43,7 @@ class NomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Nome $nome)
+    public function edit(Project $project)
     {
         //
     }
@@ -51,7 +51,7 @@ class NomeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNomeRequest $request, Nome $nome)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
         //
     }
@@ -59,7 +59,7 @@ class NomeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Nome $nome)
+    public function destroy(Project $project)
     {
         //
     }
