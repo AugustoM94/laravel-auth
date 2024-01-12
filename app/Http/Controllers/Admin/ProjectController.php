@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,7 @@ class ProjectController extends Controller
     {
         $projects = Project::all();
 
-        return view('admin.projects.index', compact('project'));
+        return view('admin.projects.index', compact('projects'));
     }
 
     /**
@@ -35,14 +36,22 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $formData = $request->validated();
-        $img_path = Storage::put('uploads/projects', $request['image']);
-        $formData['image'] = $img_path;
-        $formData['slug'] = Str::of($formData['title'])->slug('-');
-        $newProject = Project::create($formData);
-        $newProject->slug = Str::of("$newProject->id ".$formData['title'])->slug('-');
-        $newProject->save();
+        // CREATE SLUG
+        $slug = Str::slug($formData['title'], '-');
+        // add slug to formData
+        $formData['slug'] = $slug;
+        // prendiamo l'id dell'utente loggato
+        $userId = Auth::id();
+        // dd($userId);
+        // aggiungiamo l'id dell'utente
+        $formData['user_id'] = $userId;
+        if ($request->hasFile('image')) {
+            $path = Storage::put('images', $request->image);
+            $formData['image'] = $path;
+        }
+        $project = Project::create($formData);
 
-        return redirect()->route('admin.projects.index')->with('createSuccess', 'Project successfully added!');
+        return redirect()->route('admin.projects.show', $project->id);
     }
 
     /**
@@ -68,13 +77,21 @@ class ProjectController extends Controller
     {
         $formData = $request->validated();
         // CREATE SLUG
-        Storage::delete($project->image);
-        $img_path = Storage::put('uploads/projects', $request['image']);
-        $formData['image'] = $img_path;
-        $project->slug = Str::of("$project->id ".$formData['title'])->slug('-');
-        $project->update($formData);
+        $slug = Str::slug($formData['title'], '-');
+        // add slug to formData
+        $formData['slug'] = $slug;
+        // prendiamo l'id dell'utente loggato
+        $userId = Auth::id();
+        // dd($userId);
+        // aggiungiamo l'id dell'utente
+        $formData['user_id'] = $userId;
+        if ($request->hasFile('image')) {
+            $path = Storage::put('images', $request->image);
+            $formData['image'] = $path;
+        }
+        $post = Project::create($formData);
 
-        return redirect()->route('admin.projects.show', compact('project'))->with('editSuccess', 'Project successfully edited!');
+        return redirect()->route('admin.projects.show', $project->id);
     }
 
     /**
