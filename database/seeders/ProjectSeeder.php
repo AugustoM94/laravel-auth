@@ -2,16 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Project;
+use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run(Faker $faker): void
     {
-        //
+        for ($i = 0; $i < 20; ++$i) {
+            $newProject = new Project();
+            $newProject->image = $faker->imageUrl(640, 480, 'sites', true);
+            $newProject->title = $faker->unique()->slug(3);
+            $newProject->body = $faker->paragraph();
+            $newProject->link = $faker->url();
+            $newProject->user_id = 1;
+            $newProject->slug = $newProject->title;
+            $newProject->slug = $newProject->id.'-'.$newProject->title;
+            $newProject->save();
+        }
     }
 }
