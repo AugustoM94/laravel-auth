@@ -168,7 +168,7 @@ php artisan make:model Nome -rcms --requests
 
 #creo form request per validazione
 	
-php artisan make:request StoreNomemodelRequest
+php artisan make:request StoreMomemodelRequest
 
 
 ```
@@ -200,15 +200,5 @@ Route::middleware(['auth', 'verified'])
 Route::fallback(function() {
     return redirect()->route('admin.dashboard');
 });
-
-
-
-#aprire il file config/filesystem.php e sostituire locale con public
-
-stessa cosa sul file env.
-
-e decitare sul terminal
- 
- php artisan storage:link
 
 ```

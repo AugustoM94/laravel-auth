@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <section class="container">
-        <h1>Section title</h1>
-        <p>section content</p>
+        @auth
+            <h1>Benvenuto admin {{ Auth::user()->name }}</h1>
+        @else
+            <h1>Bentornato {{ Auth::user()->name }}</h1>
+        @endauth
     </section>
 @endsection

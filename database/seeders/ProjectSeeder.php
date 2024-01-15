@@ -5,21 +5,25 @@ namespace Database\Seeders;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 class ProjectSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         $projects = config('db.projects');
+
         foreach ($projects as $project) {
-            $newproject = new Project();
-            $newproject->image = $project['image'];
-            $newproject->title = $project['title'];
-            $newproject->link = $project['link'];
-            $newproject->body = $project['body'];
-            $newproject->user_id = 1;
-            $newproject->slug = Str::slug($project['title'], '-');
-            $newproject->save();
+            $newProject = new Project();
+            $newProject->image = $project['image'];
+            $newProject->title = $project['title'];
+            $newProject->body = $project['body'];
+            $newProject->link = $project['link'];
+            $newProject->user_id = 1;
+            $newProject->slug = Str::slug($project['title'], '-');
+            $newProject->save();
         }
     }
 }

@@ -2,7 +2,7 @@
 @section('content')
     <section class="container">
         <h1>Edit {{$project->title}}</h1>
-        <form action="{{ route('admin.projects.update', $project->id) }}" enctype="multipart/form-data" method="POST">
+        <form action="{{ route('admin.projects.update', $project) }}"  method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
      <div class="mb-3">
@@ -13,33 +13,25 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
     </div>
-     <div class="mb-3">
-            <label for="link">link</label>
-            <input type="text" class="form-control @error('link') is-invalid @enderror" name="link" id="link"
-                required value="{{ old('link') }}">
-            @error('link')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-    </div>
+
     <div class="mb-3">
         <label for="body">Body</label>
-        <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body" cols="30" rows="10">{{ old('body', $project->body) }}
+        <textarea class="form-control @error('body') is-invalid @enderror" name="body" id="body" cols="30" rows="10">
+        {{ old('body', $project->body) }}
         </textarea>
         @error('body')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
-        <div class="mb-3">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image', $project->image)}}">
-                    @error('image')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-        </div>
-     <div class="mt-3">
-        <button type="submit" class="btn btn-success">Save</button>
-        <button type="reset" class="btn btn-primary">Reset</button>
+    <div class="mb-3">
+                <label for="image">Image</label>
+                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image', $project->image)}}">
+                @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
     </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <button type="reset" class="btn btn-primary">Reset</button>
 
         </form>
     </section>
