@@ -1,17 +1,11 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@use './partials/variables' as *;
 
-// Variables
-@import 'variables';
+$fa-font-path: "../fonts/webfonts" !default;
 
-// Bootstrap
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
 @import '~bootstrap/scss/bootstrap';
 
-#table{
- .img{
-    width:150px;
-}
-}
- img{
-    width:150px;
-}

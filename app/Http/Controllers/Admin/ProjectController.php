@@ -70,9 +70,7 @@ class ProjectController extends Controller
         return view('admin.projects.edit', compact('project'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+  
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $formData = $request->validated();

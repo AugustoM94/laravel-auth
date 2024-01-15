@@ -17,11 +17,11 @@
             </thead>
             <tbody>
                 @foreach ($projects as $project)
-                    <tr>
+                    <tr id="table">
                         <td><a href="{{ route('admin.projects.show', $project->id) }}">{{ $project->title }}</a></td>
-                        <td>{{ $project->link }}</td>
-                        <td><img src="{{ $project->image }}" alt="Project Image"></td>
+                        <td>{{ $project->link }}</td>                       
                         <td>{{ $project->body }}</td>
+                        <td></td>
                         <td>
                             <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" style="display:inline;">

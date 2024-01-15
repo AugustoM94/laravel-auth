@@ -11,7 +11,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +19,23 @@ class StoreProjectRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+   public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'min:3', 'max:200', 'unique:project'],
+            'body' => ['nullable'],
+            'image' => ['nullable', 'image']
+        ];
+    }
+
+        public function messages()
+    {
+        return [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.min' => 'Il titolo deve avere almeno :min caratteri',
+            'title.max' => 'Il titolo deve avere massimo :max caratteri',
+            'title.unique' => 'Questo titolo esiste già',
+            'image.image' => 'L\'immagine deve essere di tipo image'
         ];
     }
 }
